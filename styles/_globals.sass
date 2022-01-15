@@ -1,0 +1,52 @@
+@mixin font_color($color)
+    color: $color
+
+@mixin font_size($size)
+    font-size: $size
+
+@mixin bg_color($color)
+    background: $color
+    color: #fff
+    border-radius: 5px
+    font-size: 1rem
+    padding: .7rem
+
+
+*,
+*::before,
+*::after
+    margin: 0
+    padding: 0
+    outline: none
+    box-sizing: border-box
+
+
+html,
+body
+    width: 100%
+    height: 100%
+
+body
+    background: $black
+    @include font_color($lightblue)
+    font-family: 'Roboto', sans-serif
+    font-size: 16px
+
+a
+    text-decoration: none
+    color: inherit
+
+
+.txt-lg
+    @include font_size(2rem)
+
+.txt-md
+    @include font_size(1.25rem)
+
+
+
+
+
+.container
+    padding: 0 1rem
+    margin: 0 auto
