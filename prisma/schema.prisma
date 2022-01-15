@@ -33,7 +33,7 @@ model Reimbursement {
   authorId Int
   reviewer User? @relation(name: "reviewer", fields: [reviewerId], references: [id])
   reviewerId Int?
-  note String
+  note String?
   created DateTime @default(now())
   updated DateTime @updatedAt
 }
