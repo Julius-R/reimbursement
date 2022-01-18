@@ -20,4 +20,5 @@ async function loginRoute(req, res) {
 	};
 	await req.session.save();
 	res.status(200).send("ok");
+	// Refactor to return an error if login fails
 }
