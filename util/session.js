@@ -2,7 +2,7 @@
 
 export const ironOptions = {
 	cookieName: "reimbursement-session",
-	password: env("SESSION_PASSWORD"),
+	password: process.env.SESSION_PW,
 	cookieOptions: {
 		secure: process.env.NODE_ENV === "production"
 	}

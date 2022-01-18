@@ -6,10 +6,11 @@ import { ironOptions } from "../../util/session";
 export default withIronSessionApiRoute(loginRoute, ironOptions);
 
 async function loginRoute(req, res) {
-	const { email, password } = req.body;
-	const loggedInUser = await prisma.user.findOne({
+	const { username, password } = await req.body;
+
+	const loggedInUser = await prisma.user.findFirst({
 		where: {
-			email: email,
+			username: username,
 			password: password
 		}
 	});
@@ -18,5 +19,5 @@ async function loginRoute(req, res) {
 		role: loggedInUser.role
 	};
 	await req.session.save();
-	res.status(200);
+	res.status(200).send("ok");
 }
