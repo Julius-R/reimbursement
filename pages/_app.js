@@ -1,4 +1,5 @@
 import "../styles/styles.sass";
+import "react-toastify/dist/ReactToastify.css";
 import { GeistProvider, CssBaseline } from "@geist-ui/core";
 
 function MyApp({ Component, pageProps }) {

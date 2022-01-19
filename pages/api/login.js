@@ -6,13 +6,11 @@ import { ironOptions } from "../../util/session";
 export default withIronSessionApiRoute(loginRoute, ironOptions);
 
 async function loginRoute(req, res) {
-	const { username, password } = await req.body;
-	console.log(req.body);
 	const loggedInUser = await prisma.user.findUnique({
 		where: {
 			login_credentials: {
-				username: `${username}`,
-				password: `${password}`
+				username: req.body.username,
+				password: req.body.password
 			}
 		}
 	});

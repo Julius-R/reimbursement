@@ -1,25 +1,32 @@
+import React, { useState } from "react";
 import Layout from "../components/Layout";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { Input, Button, Text, Spacer } from "@geist-ui/core";
+import { Key, User } from "@geist-ui/icons";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
+	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
-	const { register, handleSubmit, errors } = useForm();
-
+	const {
+		register,
+		handleSubmit,
+		formState: { errors }
+	} = useForm();
 	const attemptLogin = async (values) => {
+		setIsLoading(true);
 		const res = await fetch("http://localhost:3000/api/login", {
 			method: "POST",
-			body: JSON.stringify({
-				username: "rwrff",
-				password: "msujdf"
-			})
+			body: JSON.stringify(values),
+			headers: {
+				"Content-Type": "application/json"
+			}
 		});
-		console.log(res.status);
 		if (res.status === 200) {
 			router.push("/");
 		} else {
+			setIsLoading(false);
 			toast.error("Whoops! Look like your login info wasn't correct.");
 		}
 	};
@@ -27,14 +34,52 @@ export default function Login() {
 	return (
 		<Layout>
 			<section className="login">
-				<form
-					action="#"
-					method="POST"
-					onSubmit={handleSubmit(attemptLogin)}
-					className="login-form">
-					<h1>Login</h1>
-					<input type="submit" />
-				</form>
+				<div className="container">
+					<form
+						action="#"
+						method="POST"
+						onSubmit={handleSubmit(attemptLogin)}
+						className="login-form">
+						<h1>Login</h1>
+						<Input
+							width="100%"
+							{...register("username", {
+								required: true,
+								maxLength: 20
+							})}
+							placeholder="Username"
+							icon={<User />}>
+							{errors.username?.type === "required" && (
+								<Text small type="error">
+									Username is required
+								</Text>
+							)}
+						</Input>
+						<Spacer h={1} />
+						<Input.Password
+							width="100%"
+							{...register("password", {
+								required: true
+							})}
+							placeholder="Password"
+							icon={<Key />}>
+							{errors.password?.type === "required" && (
+								<Text small type="error">
+									Password is required
+								</Text>
+							)}
+						</Input.Password>
+						<Spacer h={1} />
+						<Button
+							loading={isLoading}
+							width="100%"
+							htmlType="submit"
+							shadow
+							type="secondary">
+							Login
+						</Button>
+					</form>
+				</div>
 			</section>
 			<ToastContainer />
 		</Layout>

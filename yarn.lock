@@ -85,6 +85,11 @@
   resolved "https://registry.yarnpkg.com/@geist-ui/core/-/core-2.2.3.tgz#fd9e8b88cd4b3bec330d51fe8f29e9140b4aa029"
   integrity sha512-CbiVrW+VdD56QJbDRCIDJzo7xozCl7R6D7ETuK6jM0qtJFcF+62koDPhonC0sSYgn2+F4E8nHJwGs8/LIw3yXg==
 
+"@geist-ui/icons@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@geist-ui/icons/-/icons-1.0.1.tgz#588b22960f584cbb75674ed56ea0789ac62dfbd6"
+  integrity sha512-W+ol1DOk9MNjY9IV0gKbhaKIjif6O+5wxM31CIUUAl6shjRjmwVPxVNFoaVJwiTp0Chp5BQyluHmCWaOOZQCtA==
+
 "@hapi/accept@5.0.2":
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/@hapi/accept/-/accept-5.0.2.tgz#ab7043b037e68b722f93f376afb05e85c0699523"
