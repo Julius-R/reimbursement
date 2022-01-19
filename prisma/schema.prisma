@@ -20,6 +20,7 @@ model User {
   role Role @default(USER)
   reimbursements Reimbursement[] @relation("author")
   reviewer Reimbursement? @relation("reviewer")
+  @@unique(fields: [username, password], name: "login_credentials")
 }
 
 model Reimbursement {

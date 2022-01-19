@@ -7,18 +7,23 @@ export default withIronSessionApiRoute(loginRoute, ironOptions);
 
 async function loginRoute(req, res) {
 	const { username, password } = await req.body;
-
-	const loggedInUser = await prisma.user.findFirst({
+	console.log(req.body);
+	const loggedInUser = await prisma.user.findUnique({
 		where: {
-			username: username,
-			password: password
+			login_credentials: {
+				username: `${username}`,
+				password: `${password}`
+			}
 		}
 	});
-	req.session.user = {
-		user: loggedInUser,
-		role: loggedInUser.role
-	};
-	await req.session.save();
-	res.status(200).send("ok");
-	// Refactor to return an error if login fails
+	if (loggedInUser === null) {
+		res.status(401).send("Unauthorized");
+	} else {
+		req.session.user = {
+			user: loggedInUser,
+			role: loggedInUser.role
+		};
+		await req.session.save();
+		res.status(200).send("ok");
+	}
 }

@@ -8,11 +8,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@geist-ui/core": "^2.2.3",
     "@prisma/client": "^3.8.0",
     "iron-session": "^6.0.5",
     "next": "12.0.7",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-hook-form": "^7.24.1",
+    "react-toastify": "^8.1.0",
     "sass": "^1.47.0"
   },
   "devDependencies": {

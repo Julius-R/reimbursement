@@ -1,7 +1,13 @@
 import "../styles/styles.sass";
+import { GeistProvider, CssBaseline } from "@geist-ui/core";
 
 function MyApp({ Component, pageProps }) {
-	return <Component {...pageProps} />;
+	return (
+		<GeistProvider>
+			<CssBaseline />
+			<Component {...pageProps} />
+		</GeistProvider>
+	);
 }
 
 export default MyApp;
