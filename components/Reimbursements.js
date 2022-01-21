@@ -30,9 +30,9 @@ export default function Reimbursements({ reimbursements, role }) {
 					<Select.Option value="APPROVED">Approved</Select.Option>
 					<Select.Option value="DENIED">Denied</Select.Option>
 				</Select>
-				<Grid.Container gap={2} justify="center">
+				<Grid.Container justify="center">
 					{filteredReimbursements.map((reimbursement) => (
-						<Grid xs={24} sm={12} key={reimbursement.id}>
+						<Grid xs={24} mb="5px" key={reimbursement.id}>
 							<Reimbursement
 								role={role}
 								reimbursement={reimbursement}

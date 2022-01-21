@@ -2,6 +2,9 @@ import React from "react";
 import { Select, Text, Card, Divider, Button } from "@geist-ui/core";
 import { Coffee, Home, Truck, BookOpen, Trash, Edit } from "@geist-ui/icons";
 
+/* 
+	TODO: Implement api calls for reimbursements updated, created, and deleted both front and backend
+*/
 export default function Reimbursement({ role, reimbursement }) {
 	const displayTypeIcon = (type) => {
 		switch (type) {
@@ -14,6 +17,24 @@ export default function Reimbursement({ role, reimbursement }) {
 			case "OTHER":
 			default:
 				return <BookOpen />;
+		}
+	};
+	const displayModifyButton = (role) => {
+		switch (role) {
+			case "ADMIN":
+				return (
+					<Button width="100%" icon={<Edit />} type="secondary">
+						Update
+					</Button>
+				);
+			case "USER":
+				return (
+					<Button width="100%" icon={<Trash />} type="secondary">
+						Delete
+					</Button>
+				);
+			default:
+				return null;
 		}
 	};
 	return (
@@ -98,17 +119,10 @@ export default function Reimbursement({ role, reimbursement }) {
 					{reimbursement.note}
 				</Text>
 			</Card.Content>
-			<Card.Footer>
-				{role === "ADMIN" ? (
-					<Button width="100%" icon={<Edit />} type="secondary">
-						Update
-					</Button>
-				) : (
-					<Button width="100%" icon={<Trash />} type="secondary">
-						Delete
-					</Button>
-				)}
-			</Card.Footer>
+
+			{reimbursement.status === "PENDING" && (
+				<Card.Footer>{displayModifyButton(role)}</Card.Footer>
+			)}
 		</Card>
 	);
 }
