@@ -16,7 +16,7 @@ export default function Login() {
 	} = useForm();
 	const attemptLogin = async (values) => {
 		setIsLoading(true);
-		const res = await fetch("http://localhost:3000/api/login", {
+		const res = await fetch("/api/login", {
 			method: "POST",
 			body: JSON.stringify(values),
 			headers: {
@@ -40,7 +40,7 @@ export default function Login() {
 						method="POST"
 						onSubmit={handleSubmit(attemptLogin)}
 						className="login-form">
-						<h1>Login</h1>
+						<Text h3>Sign in to continue</Text>
 						<Input
 							width="100%"
 							{...register("username", {
