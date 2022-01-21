@@ -1,5 +1,5 @@
 import React from "react";
-import Reimbursement from "./Reimbursement";
+import Reimbursements from "./Reimbursements";
 
 export default function Employee({ user }) {
 	let employee = user;
@@ -25,13 +25,8 @@ export default function Employee({ user }) {
 	return (
 		<div>
 			{user.username}
-			{reimbursements.map((reimbursement) => (
-				<Reimbursement
-					key={reimbursement.id}
-					role={user.role}
-					reimbursement={reimbursement}
-				/>
-			))}
+			{console.log(reimbursements)}
+			<Reimbursements reimbursements={reimbursements} role="USER" />
 		</div>
 	);
 }

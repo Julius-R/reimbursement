@@ -1,10 +1,18 @@
 import React from "react";
-import Reimbursement from "./Reimbursement";
+import Reimbursements from "./Reimbursements";
 
 export default function Admin({ user }) {
 	const [reimbursements, setReimbursements] = React.useState([]);
 	React.useEffect(() => {
-		fetch("./api/reimbursements")
+		fetch("./api/reimbursements", {
+			method: "POST",
+			body: JSON.stringify({
+				role: "ADMIN"
+			}),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
 			.then((res) => res.json())
 			.then((data) => {
 				setReimbursements(data);
@@ -15,7 +23,7 @@ export default function Admin({ user }) {
 		<div>
 			{user.username}
 			{console.log(reimbursements)}
-			<Reimbursement />
+			<Reimbursements reimbursements={reimbursements} role="ADMIN" />
 		</div>
 	);
 }
