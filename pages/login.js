@@ -30,7 +30,6 @@ export default function Login() {
 			toast.error("Whoops! Look like your login info wasn't correct.");
 		}
 	};
-
 	return (
 		<Layout>
 			<section className="login">

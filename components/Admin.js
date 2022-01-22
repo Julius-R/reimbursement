@@ -21,8 +21,6 @@ export default function Admin({ user }) {
 	}, []);
 	return (
 		<div>
-			{user.username}
-			{console.log(reimbursements)}
 			<Reimbursements reimbursements={reimbursements} role="ADMIN" />
 		</div>
 	);

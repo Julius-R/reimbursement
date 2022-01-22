@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Reimbursement from "./Reimbursement";
-import { Select, Text, Grid } from "@geist-ui/core";
+import { Select, Text, Grid, Spacer } from "@geist-ui/core";
 import { Filter } from "@geist-ui/icons";
 
 export default function Reimbursements({ reimbursements, role }) {
@@ -19,10 +19,10 @@ export default function Reimbursements({ reimbursements, role }) {
 		setFilteredReimbursements(reimbursements);
 	}, [reimbursements]);
 	return (
-		<div>
+		<>
 			<section className="container">
 				<Select
-					placeholder="Status"
+					placeholder="Filter By Status"
 					type="secondary"
 					onChange={updateFilter}>
 					<Select.Option value="ALL">All</Select.Option>
@@ -30,7 +30,11 @@ export default function Reimbursements({ reimbursements, role }) {
 					<Select.Option value="APPROVED">Approved</Select.Option>
 					<Select.Option value="DENIED">Denied</Select.Option>
 				</Select>
+				<Spacer h={2} />
 				<Grid.Container justify="center">
+					<Grid xs={24} mb="5px">
+						<Text h4>Reimbursements:</Text>
+					</Grid>
 					{filteredReimbursements.map((reimbursement) => (
 						<Grid xs={24} mb="5px" key={reimbursement.id}>
 							<Reimbursement
@@ -41,6 +45,6 @@ export default function Reimbursements({ reimbursements, role }) {
 					))}
 				</Grid.Container>
 			</section>
-		</div>
+		</>
 	);
 }

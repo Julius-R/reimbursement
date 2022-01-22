@@ -24,8 +24,6 @@ export default function Employee({ user }) {
 	}, []);
 	return (
 		<div>
-			{user.username}
-			{console.log(reimbursements)}
 			<Reimbursements reimbursements={reimbursements} role="USER" />
 		</div>
 	);
