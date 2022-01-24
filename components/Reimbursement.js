@@ -7,7 +7,7 @@ import {
 	Divider,
 	Button,
 	Modal,
-	ButtonGroup
+	Grid
 } from "@geist-ui/core";
 import {
 	Coffee,
@@ -45,16 +45,20 @@ export default function Reimbursement({
 		switch (role) {
 			case "ADMIN":
 				return (
-					<ButtonGroup scale={1 / 3}>
+					<Grid xs={24}>
 						<Button
-							scale={1 / 3}
+							auto
+							width="30%"
+							mx="5px"
 							icon={<CheckCircle color="green" />}
 							shadow
 							type="secondary">
 							Approve
 						</Button>
 						<Button
-							scale={1 / 3}
+							auto
+							width="30%"
+							mx="5px"
 							icon={<XCircle color="red" />}
 							shadow
 							type="secondary">
@@ -62,13 +66,15 @@ export default function Reimbursement({
 						</Button>
 						<Button
 							onClick={() => setShowWarningModal(true)}
-							scale={1 / 3}
+							auto
+							width="30%"
+							mx="5px"
 							icon={<Trash />}
 							shadow
 							type="secondary">
 							Delete
 						</Button>
-					</ButtonGroup>
+					</Grid>
 				);
 			case "USER":
 				return (

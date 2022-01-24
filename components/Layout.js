@@ -1,20 +1,22 @@
 import Head from "next/head";
+import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { Text, Button } from "@geist-ui/core";
 import { useRouter } from "next/router";
 
 export default function Layout({ children, isLoggedIn }) {
+	const [loading, setLoading] = useState(false);
 	const router = useRouter();
-	const logout = () => {
-		fetch("/api/logout").then((res) => {
-			if (res.status === 200) {
-				router.push("/login");
-			} else {
-				toast.error(
-					"Looks like an error occured while logging out. Please try again."
-				);
-			}
-		});
+	const logout = async () => {
+		setLoading(true);
+		const res = await fetch("/api/logout");
+		if (res.status === 200) {
+			router.push("/login");
+		} else {
+			toast.error(
+				"Looks like an error occurred while logging out. Please try again."
+			);
+		}
 	};
 	return (
 		<>
@@ -30,6 +32,7 @@ export default function Layout({ children, isLoggedIn }) {
 					<Text h3>[Reim inc.] </Text>
 					{isLoggedIn && (
 						<Button
+							loading={loading}
 							onClick={() => logout()}
 							shadow
 							type="secondary">
