@@ -44,11 +44,7 @@ export default function Reimbursements({
 				)
 			);
 		} else {
-			setFilteredReimbursements(
-				filteredReimbursements.filter(
-					(reimbursement) => reimbursement.id !== update.id
-				)
-			);
+			setShouldReload(true);
 		}
 	};
 	const updateFilter = (e) => {
@@ -81,7 +77,7 @@ export default function Reimbursements({
 				onClose: () => setShouldReload(true),
 				type: "success",
 				pauseOnHover: false,
-				autoClose: 3000
+				autoClose: 1500
 			});
 		}
 	};

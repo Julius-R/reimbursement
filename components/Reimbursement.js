@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import {
 	Select,
 	Text,
@@ -89,13 +90,16 @@ export default function Reimbursement({
 		const res = await fetch(`/api/reimbursements/${reimbursement.id}`, {
 			method: "DELETE"
 		});
-		const data = await res.json();
-		console.log(data);
-		// if(data === 200) {
-		// 	updateFilteredReimbursements(reimbursement, "DELETE");
-		// } else {
-		// 	console.log("Error deleting reimbursement");
-		// }
+		setShowWarningModal(false);
+
+		if (res.status === 200) {
+			toast.success("Reimbursement deleted successfully", {
+				position: "top-right",
+				autoClose: 1500,
+				onClose: () =>
+					updateFilteredReimbursements(reimbursement, "DELETE")
+			});
+		}
 	};
 	return (
 		<Card width="400px">
@@ -195,6 +199,7 @@ export default function Reimbursement({
 					Yes
 				</Modal.Action>
 			</Modal>
+			<ToastContainer />
 		</Card>
 	);
 }
