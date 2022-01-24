@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
 import Reimbursement from "./Reimbursement";
 import {
 	Input,
@@ -14,17 +15,25 @@ import {
 } from "@geist-ui/core";
 import { Filter, DollarSign } from "@geist-ui/icons";
 
-export default function Reimbursements({ reimbursements, role }) {
+export default function Reimbursements({
+	reimbursements,
+	role,
+	user,
+	setShouldReload
+}) {
 	const [filteredReimbursements, setFilteredReimbursements] = useState([]);
 	const [isEmpty, setIsEmpty] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const [showModal, setShowModal] = useState(true);
+	const [showModal, setShowModal] = useState(false);
+	const [buttonLoading, setButtonLoading] = useState(false);
 	const {
 		register,
 		handleSubmit,
 		getValues,
 		setValue,
+		setError,
 		reset,
+		clearErrors,
 		formState: { errors }
 	} = useForm();
 	const updateFilteredReimbursements = (update, updateType) => {
@@ -50,6 +59,30 @@ export default function Reimbursements({ reimbursements, role }) {
 				(reimbursement) => reimbursement.status === e
 			);
 			setFilteredReimbursements(arr);
+		}
+	};
+	const createReimbursement = async (values) => {
+		const res = await fetch("/api/reimbursements", {
+			method: "POST",
+			body: JSON.stringify({
+				desire: "CREATE",
+				val: values
+			}),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		});
+		const data = await res.json();
+		setButtonLoading(false);
+		setShowModal(false);
+		reset();
+		if (res.status === 200) {
+			toast("Reimbursement created successfully!", {
+				onClose: () => setShouldReload(true),
+				type: "success",
+				pauseOnHover: false,
+				autoClose: 3000
+			});
 		}
 	};
 	useEffect(() => {
@@ -108,30 +141,30 @@ export default function Reimbursements({ reimbursements, role }) {
 					Please ensure that all information here is accurate.
 				</Modal.Subtitle>
 				<Modal.Content>
-					<form
-						onSubmit={() => {
-							alert("Submitted");
-						}}>
+					<form>
 						<Spacer h={1} />
 						<Input
+							type={
+								errors.amount?.type === "required"
+									? "error"
+									: "default"
+							}
 							width="100%"
 							{...register("amount", {
-								required: true,
-								min: 10.0
+								required: true
 							})}
 							placeholder="10.00"
-							icon={<DollarSign />}>
-							{errors.username?.type === "required" && (
-								<Text small type="error">
-									Amount is required
-								</Text>
-							)}
-						</Input>
+							icon={<DollarSign />}></Input>
+						{errors.amount?.type === "required" && (
+							<Text small type="error">
+								{errors.amount?.message}
+							</Text>
+						)}
 						<Spacer h={1} />
 						<Select
+							type="secondary"
 							width="100%"
 							placeholder="Filter By Status"
-							type="secondary"
 							onChange={(e) => {
 								setValue("type", e);
 							}}>
@@ -144,12 +177,22 @@ export default function Reimbursements({ reimbursements, role }) {
 						</Select>
 						<Spacer h={1} />
 						<Textarea
+							type={
+								errors.description?.type === "required"
+									? "error"
+									: "default"
+							}
 							width="100%"
 							{...register("description", {
 								required: true
 							})}
 							placeholder="Please enter a description."
 						/>
+						{errors.description?.type === "required" && (
+							<Text small type="error">
+								{errors.description?.message}
+							</Text>
+						)}
 					</form>
 				</Modal.Content>
 				<Modal.Action
@@ -160,17 +203,43 @@ export default function Reimbursements({ reimbursements, role }) {
 					Cancel
 				</Modal.Action>
 				<Modal.Action
+					loading={buttonLoading}
 					onClick={() => {
+						// Clear all errors
+						setButtonLoading(true);
+						clearErrors();
+						let errorCount = 0;
 						const values = getValues();
-						// TODO: Validate that amount is a number
-						// TODO: Handle case if no type selected for type
-						// TODO: Configure error handling if values are invalid or empty
-						console.log(parseInt(values.amount));
-						console.log(values);
+						const amount = parseFloat(values.amount);
+						if (isNaN(amount)) {
+							setError("amount", {
+								type: "required",
+								message:
+									"Amount can not be blank, and must be a number"
+							});
+							errorCount++;
+							setButtonLoading(false);
+						}
+						if (!!values.description.trim("") === false) {
+							setError("description", {
+								type: "required",
+								message: "Description can not be blank"
+							});
+							errorCount++;
+							setButtonLoading(false);
+						}
+						const data = {
+							amount: values.amount,
+							description: values.description,
+							type: values?.type ?? "OTHER",
+							authorId: user.id
+						};
+						if (errorCount === 0) createReimbursement(data);
 					}}>
 					Submit
 				</Modal.Action>
 			</Modal>
+			<ToastContainer />
 		</>
 	);
 }

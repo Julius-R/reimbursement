@@ -140,25 +140,17 @@ export default function Reimbursement({
 						span
 						style={{ fontWeight: 300, fontSize: "1rem" }}
 						ml="5px">
-						{new Date(reimbursement.created).toLocaleString()}
+						{new Date(reimbursement.createdAt).toLocaleString()}
 					</Text>
 				</Text>
-				{reimbursement.updated !== null && (
+				{reimbursement.reviewerId !== null && (
 					<Text h4>
 						Reviewed:
 						<Text
 							span
 							style={{ fontWeight: 300, fontSize: "1rem" }}
 							ml="5px">
-							{new Date(reimbursement.updated).toLocaleString()}
-						</Text>
-					</Text>
-				)}
-				{reimbursement.resolver !== null && (
-					<Text h6 style={{ marginTop: "-10px" }}>
-						Reviewed By:
-						<Text span style={{ fontWeight: 300 }} ml="5px">
-							{reimbursement.resolver}
+							{new Date(reimbursement.updatedAt).toLocaleString()}
 						</Text>
 					</Text>
 				)}
@@ -183,7 +175,6 @@ export default function Reimbursement({
 					{reimbursement.note}
 				</Text>
 			</Card.Content>
-
 			{reimbursement.status === "PENDING" && (
 				<Card.Footer>{displayModifyButton(role)}</Card.Footer>
 			)}

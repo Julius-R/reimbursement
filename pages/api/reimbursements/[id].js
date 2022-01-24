@@ -13,14 +13,14 @@ export default async function handler(req, res) {
 					note: req.body.note
 				}
 			});
-			return res.status(200).send();
+			return res.status(200).send(reimbursement);
 		case "DELETE":
-			const reimbursement = await prisma.reimbursement.delete({
+			const deletedReimbursement = await prisma.reimbursement.delete({
 				where: {
-					id: req.query.id
+					id: parseInt(req.query.id)
 				}
 			});
-			return res.status(200).send(reimbursement);
+			return res.status(200).send(deletedReimbursement);
 		default:
 			return res.status(400).send("Method not supported");
 	}

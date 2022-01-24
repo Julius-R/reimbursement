@@ -4,6 +4,7 @@ import Reimbursements from "./Reimbursements";
 export default function Employee({ user }) {
 	let employee = user;
 	const [reimbursements, setReimbursements] = React.useState([]);
+	const [shouldReload, setShouldReload] = React.useState(false);
 	React.useEffect(() => {
 		fetch("./api/reimbursements", {
 			method: "POST",
@@ -19,12 +20,18 @@ export default function Employee({ user }) {
 			.then((res) => res.json())
 			.then((data) => {
 				setReimbursements(data);
+				setShouldReload(false);
 			})
 			.catch((err) => console.log(err));
-	}, []);
+	}, [shouldReload]);
 	return (
 		<div>
-			<Reimbursements reimbursements={reimbursements} role="USER" />
+			<Reimbursements
+				reimbursements={reimbursements}
+				setShouldReload={setShouldReload}
+				user={user}
+				role={user.role}
+			/>
 		</div>
 	);
 }
