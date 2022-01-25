@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 import {
 	Select,
 	Text,
@@ -7,7 +9,8 @@ import {
 	Divider,
 	Button,
 	Modal,
-	Grid
+	Grid,
+	Textarea
 } from "@geist-ui/core";
 import {
 	Coffee,
@@ -25,8 +28,11 @@ import {
 export default function Reimbursement({
 	role,
 	reimbursement,
-	updateFilteredReimbursements
+	admin,
+	setShouldReload
 }) {
+	const router = useRouter();
+	const { register, getValues, reset } = useForm();
 	const [showWarningModal, setShowWarningModal] = useState(false);
 	const displayTypeIcon = (type) => {
 		switch (type) {
@@ -45,36 +51,38 @@ export default function Reimbursement({
 		switch (role) {
 			case "ADMIN":
 				return (
-					<Grid xs={24}>
-						<Button
-							auto
-							width="30%"
-							mx="5px"
-							icon={<CheckCircle color="green" />}
-							shadow
-							type="secondary">
-							Approve
-						</Button>
-						<Button
-							auto
-							width="30%"
-							mx="5px"
-							icon={<XCircle color="red" />}
-							shadow
-							type="secondary">
-							Deny
-						</Button>
-						<Button
-							onClick={() => setShowWarningModal(true)}
-							auto
-							width="30%"
-							mx="5px"
-							icon={<Trash />}
-							shadow
-							type="secondary">
-							Delete
-						</Button>
-					</Grid>
+					<Grid.Container gap={2} justify="center">
+						<Grid xs={24}>
+							<Button
+								onClick={() => updateReimbursement("ADD")}
+								auto
+								width="30%"
+								icon={<CheckCircle color="green" />}
+								shadow
+								type="secondary">
+								Approve
+							</Button>
+							<Button
+								onClick={() => updateReimbursement("DELETE")}
+								auto
+								width="30%"
+								mx="5px"
+								icon={<XCircle color="red" />}
+								shadow
+								type="secondary">
+								Deny
+							</Button>
+							<Button
+								onClick={() => setShowWarningModal(true)}
+								auto
+								width="30%"
+								icon={<Trash />}
+								shadow
+								type="secondary">
+								Delete
+							</Button>
+						</Grid>
+					</Grid.Container>
 				);
 			case "USER":
 				return (
@@ -91,19 +99,38 @@ export default function Reimbursement({
 				return null;
 		}
 	};
-	const updateReimbursement = async (val) => {};
+	const updateReimbursement = async (updateType) => {
+		const description = getValues("description");
+		let data = {
+			status: updateType === "ADD" ? "APPROVED" : "DENIED",
+			reviewer: admin,
+			description: !!description.trim() === false ? "N/A" : description
+		};
+		let res = await fetch(`/api/reimbursements/${reimbursement.id}`, {
+			method: "PATCH",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(data)
+		});
+		let json = await res.json();
+		console.log(json);
+		if (res.status === 200)
+			toast.success("Update Successful!", {
+				autoClose: 1500,
+				onClose: () => setShouldReload(true)
+			});
+	};
 	const deleteReimbursement = async () => {
 		const res = await fetch(`/api/reimbursements/${reimbursement.id}`, {
 			method: "DELETE"
 		});
 		setShowWarningModal(false);
-
 		if (res.status === 200) {
 			toast.success("Reimbursement deleted successfully", {
 				position: "top-right",
 				autoClose: 1500,
-				onClose: () =>
-					updateFilteredReimbursements(reimbursement, "DELETE")
+				onClose: () => setShouldReload(true)
 			});
 		}
 	};
@@ -184,6 +211,17 @@ export default function Reimbursement({
 					}}>
 					{reimbursement.note}
 				</Text>
+				{role === "ADMIN" && reimbursement.status === "PENDING" && (
+					<>
+						<Text h4>Leave A Comment:</Text>
+						<Textarea
+							type="secondary"
+							width="100%"
+							{...register("description")}
+							placeholder="Please enter a comment."
+						/>
+					</>
+				)}
 			</Card.Content>
 			{reimbursement.status === "PENDING" && (
 				<Card.Footer>{displayModifyButton(role)}</Card.Footer>

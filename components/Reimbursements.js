@@ -36,17 +36,7 @@ export default function Reimbursements({
 		clearErrors,
 		formState: { errors }
 	} = useForm();
-	const updateFilteredReimbursements = (update, updateType) => {
-		if (updateType === "updateReimbursement") {
-			setFilteredReimbursements(
-				filteredReimbursements.map((reimbursement) =>
-					reimbursement.id === update.id ? update : reimbursement
-				)
-			);
-		} else {
-			setShouldReload(true);
-		}
-	};
+
 	const updateFilter = (e) => {
 		if (e === "ALL") {
 			setFilteredReimbursements(reimbursements);
@@ -106,18 +96,25 @@ export default function Reimbursements({
 					Add Reimbursement
 				</Button>
 				<Spacer h={2} />
-				<Grid.Container justify="center">
+				<Grid.Container
+					alignContent="space-between"
+					justify="flex-start">
 					<Grid xs={24} mb="5px">
 						<Text h4>Reimbursements:</Text>
 					</Grid>
 					{filteredReimbursements.map((reimbursement) => (
-						<Grid xs={24} mb="5px" key={reimbursement.id}>
+						<Grid
+							xs={24}
+							sm={12}
+							lg={8}
+							mb="15px"
+							key={reimbursement.id}>
 							<Reimbursement
+								width="100%"
 								role={role}
+								admin={user.role === "ADMIN" ? user.id : null}
 								reimbursement={reimbursement}
-								updateFilteredReimbursements={
-									updateFilteredReimbursements
-								}
+								setShouldReload={setShouldReload}
 							/>
 						</Grid>
 					))}
@@ -201,7 +198,6 @@ export default function Reimbursements({
 				<Modal.Action
 					loading={buttonLoading}
 					onClick={() => {
-						// Clear all errors
 						setButtonLoading(true);
 						clearErrors();
 						let errorCount = 0;

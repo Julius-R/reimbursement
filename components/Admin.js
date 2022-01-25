@@ -3,8 +3,9 @@ import Reimbursements from "./Reimbursements";
 
 export default function Admin({ user }) {
 	const [reimbursements, setReimbursements] = React.useState([]);
-	React.useEffect(() => {
-		fetch("./api/reimbursements", {
+	const [shouldReload, setShouldReload] = React.useState(false);
+	const fetchReimbursements = async () => {
+		const res = await fetch("./api/reimbursements", {
 			method: "POST",
 			body: JSON.stringify({
 				role: "ADMIN"
@@ -12,16 +13,21 @@ export default function Admin({ user }) {
 			headers: {
 				"Content-Type": "application/json"
 			}
-		})
-			.then((res) => res.json())
-			.then((data) => {
-				setReimbursements(data);
-			})
-			.catch((err) => console.log(err));
-	}, []);
+		});
+		const data = await res.json();
+		setReimbursements(data);
+	};
+	React.useEffect(() => {
+		fetchReimbursements();
+	}, [shouldReload]);
 	return (
 		<div>
-			<Reimbursements reimbursements={reimbursements} role="ADMIN" />
+			<Reimbursements
+				reimbursements={reimbursements}
+				user={user}
+				role={user.role}
+				setShouldReload={setShouldReload}
+			/>
 		</div>
 	);
 }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Image from "next/image";
 import Layout from "../components/Layout";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -79,6 +80,9 @@ export default function Login() {
 						</Button>
 					</form>
 				</div>
+				<section className="image">
+					<img src="" alt="" />
+				</section>
 			</section>
 			<ToastContainer />
 		</Layout>

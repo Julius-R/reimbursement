@@ -5,12 +5,16 @@ export default async function handler(req, res) {
 		case "PATCH":
 			const reimbursement = await prisma.reimbursement.update({
 				where: {
-					id: req.query.id
+					id: parseInt(req.query.id)
 				},
 				data: {
 					status: req.body.status,
-					reviewer: req.body.reviewer,
-					note: req.body.note
+					note: req.body.note,
+					reviewer: {
+						connect: {
+							id: req.body.reviewer
+						}
+					}
 				}
 			});
 			return res.status(200).send(reimbursement);

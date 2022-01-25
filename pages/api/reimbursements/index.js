@@ -2,7 +2,11 @@ import prisma from "../../../util/prisma";
 
 export default async function handler(req, res) {
 	if (req.body.role === "ADMIN") {
-		const reimbursements = await prisma.reimbursement.findMany();
+		const reimbursements = await prisma.reimbursement.findMany({
+			orderBy: {
+				createdAt: "desc"
+			}
+		});
 		res.status(200).send(reimbursements);
 	} else {
 		// Checking the desire of the request to determine which query to run
@@ -20,6 +24,9 @@ export default async function handler(req, res) {
 				break;
 			case "SEARCH":
 				const reimbursements = await prisma.reimbursement.findMany({
+					orderBy: {
+						createdAt: "desc"
+					},
 					where: {
 						authorId: req.body.id
 					}
