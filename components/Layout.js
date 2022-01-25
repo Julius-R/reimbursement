@@ -42,7 +42,7 @@ export default function Layout({ children, isLoggedIn }) {
 				</div>
 			</header>
 			<ToastContainer />
-			<main className="main">{children}</main>
+			{children}
 		</>
 	);
 }

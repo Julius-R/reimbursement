@@ -34,7 +34,7 @@ export default function Login() {
 	return (
 		<Layout>
 			<section className="login">
-				<div className="container">
+				<div className="containers">
 					<form
 						action="#"
 						method="POST"
@@ -80,9 +80,6 @@ export default function Login() {
 						</Button>
 					</form>
 				</div>
-				<section className="image">
-					<img src="" alt="" />
-				</section>
 			</section>
 			<ToastContainer />
 		</Layout>
