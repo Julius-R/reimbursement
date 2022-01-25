@@ -3,7 +3,6 @@ import Employee from "../components/Employee";
 import Admin from "../components/Admin";
 import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "../util/session";
-import { Text } from "@geist-ui/core";
 
 export default function Home({ loggedInUser, role }) {
 	return (
@@ -27,14 +26,13 @@ export const getServerSideProps = withIronSessionSsr(
 					destination: "/login"
 				}
 			};
-		} else {
-			return {
-				props: {
-					loggedInUser: user.user,
-					role: user.role
-				}
-			};
 		}
+		return {
+			props: {
+				loggedInUser: user.user,
+				role: user.role
+			}
+		};
 	},
 	ironOptions
 );

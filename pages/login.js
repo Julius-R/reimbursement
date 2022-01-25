@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Image from "next/image";
 import Layout from "../components/Layout";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -16,7 +17,7 @@ export default function Login() {
 	} = useForm();
 	const attemptLogin = async (values) => {
 		setIsLoading(true);
-		const res = await fetch("http://localhost:3000/api/login", {
+		const res = await fetch("/api/login", {
 			method: "POST",
 			body: JSON.stringify(values),
 			headers: {
@@ -30,7 +31,6 @@ export default function Login() {
 			toast.error("Whoops! Look like your login info wasn't correct.");
 		}
 	};
-
 	return (
 		<Layout>
 			<section className="login">
@@ -40,7 +40,7 @@ export default function Login() {
 						method="POST"
 						onSubmit={handleSubmit(attemptLogin)}
 						className="login-form">
-						<h1>Login</h1>
+						<Text h3>Sign in to continue</Text>
 						<Input
 							width="100%"
 							{...register("username", {
@@ -80,6 +80,9 @@ export default function Login() {
 						</Button>
 					</form>
 				</div>
+				<section className="image">
+					<img src="" alt="" />
+				</section>
 			</section>
 			<ToastContainer />
 		</Layout>
