@@ -1,5 +1,7 @@
-const { PrismaClient } = require("@prisma/client");
+import { PrismaClient } from "@prisma/client";
+
 const prisma = new PrismaClient();
+export default prisma;
 
 export const createReimbursement = async (val) => {
 	const reimbursement = await prisma.reimbursement.create({
@@ -31,9 +33,10 @@ export const displayAllReimbursements = async (val) => {
 };
 
 export const displayUsersReimbursements = async (val) => {
+	console.log("Val: " + val);
 	const reimbursements = await prisma.reimbursement.findMany({
 		where: {
-			author: val.author
+			authorId: val
 		}
 	});
 };

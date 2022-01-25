@@ -8,21 +8,22 @@ import {
 	deleteReimbursement
 } from "../../util/prisma";
 
-const createUser = async () => {
-	const pop = await prisma.user.create({
-		data: {
-			email: "jrobins@reim.com",
-			username: "JDev27",
-			password: "un53cur3dP@ssw0rd",
-			name: "Julius Robinson",
-			role: "ADMIN"
-		}
-	});
-};
-
 export default function handler(req, res) {
-	// createReimbursement().finally(() => {
-	// 	prisma.$disconnect();
-	// });
-	// res.status(200)
+	displayUsersReimbursements(req.body.data);
+
+	// Filter out if request is from an admin or user
+	// if (req.body.role === "USER") {
+	// 	// filter by request method
+	// 	switch (req.query.method) {
+	// 		case "POST":
+
+	// 	}
+	// }
+	// if (req.session.user.role === "admin") {
+	// }
 }
+
+// createReimbursement().finally(() => {
+// 	prisma.$disconnect();
+// });
+// res.status(200)
