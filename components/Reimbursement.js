@@ -22,9 +22,6 @@ import {
 	XCircle
 } from "@geist-ui/icons";
 
-/* 
-	TODO: Implement api calls for reimbursements updated, created, and deleted both front and backend
-*/
 export default function Reimbursement({
 	role,
 	reimbursement,
