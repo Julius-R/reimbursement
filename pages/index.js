@@ -6,7 +6,7 @@ import { ironOptions } from "../util/session";
 
 export default function Home({ loggedInUser, role }) {
 	return (
-		<Layout isLoggedIn={true}>
+		<Layout>
 			{role === "USER" ? (
 				<Employee user={loggedInUser} />
 			) : (

@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { Text, Button } from "@geist-ui/core";
 import { useRouter } from "next/router";
 
-export default function Layout({ children, isLoggedIn }) {
+export default function Layout({ children }) {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 	const logout = async () => {
@@ -30,18 +30,17 @@ export default function Layout({ children, isLoggedIn }) {
 			<header className="header">
 				<div className="container flex">
 					<Text h3>[Reim inc.] </Text>
-					{isLoggedIn && (
-						<Button
-							loading={loading}
-							onClick={() => logout()}
-							shadow
-							type="secondary">
-							Logout
-						</Button>
-					)}
+					<Button
+						loading={loading}
+						onClick={() => logout()}
+						shadow
+						type="secondary">
+						Logout
+					</Button>
 				</div>
 			</header>
 			<ToastContainer />
+
 			{children}
 		</>
 	);
