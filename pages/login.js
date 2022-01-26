@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import Layout from "../components/Layout";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { Input, Button, Text, Spacer } from "@geist-ui/core";
@@ -32,59 +31,54 @@ export default function Login() {
 		}
 	};
 	return (
-		<Layout>
-			<section className="login">
-				<div className="container">
-					<form
-						action="#"
-						method="POST"
-						onSubmit={handleSubmit(attemptLogin)}
-						className="login-form">
-						<Text h3>Sign in to continue</Text>
-						<Input
-							width="100%"
-							{...register("username", {
-								required: true,
-								maxLength: 20
-							})}
-							placeholder="Username"
-							icon={<User />}>
-							{errors.username?.type === "required" && (
-								<Text small type="error">
-									Username is required
-								</Text>
-							)}
-						</Input>
-						<Spacer h={1} />
-						<Input.Password
-							width="100%"
-							{...register("password", {
-								required: true
-							})}
-							placeholder="Password"
-							icon={<Key />}>
-							{errors.password?.type === "required" && (
-								<Text small type="error">
-									Password is required
-								</Text>
-							)}
-						</Input.Password>
-						<Spacer h={1} />
-						<Button
-							loading={isLoading}
-							width="100%"
-							htmlType="submit"
-							shadow
-							type="secondary">
-							Login
-						</Button>
-					</form>
-				</div>
-				<section className="image">
-					<img src="" alt="" />
-				</section>
-			</section>
-			<ToastContainer />
-		</Layout>
+		<section className="login">
+			<form
+				action="#"
+				method="POST"
+				onSubmit={handleSubmit(attemptLogin)}
+				className="login-form">
+				<Text h3>[Reim inc.] </Text>
+				<Text h3>Sign in to continue</Text>
+				<Input
+					width="100%"
+					{...register("username", {
+						required: true,
+						maxLength: 20
+					})}
+					placeholder="Username"
+					icon={<User />}>
+					{errors.username?.type === "required" && (
+						<Text small type="error">
+							Username is required
+						</Text>
+					)}
+				</Input>
+				<Spacer h={1} />
+				<Input.Password
+					width="100%"
+					{...register("password", {
+						required: true
+					})}
+					placeholder="Password"
+					icon={<Key />}>
+					{errors.password?.type === "required" && (
+						<Text small type="error">
+							Password is required
+						</Text>
+					)}
+				</Input.Password>
+				<Spacer h={1} />
+				<Button
+					loading={isLoading}
+					width="100%"
+					htmlType="submit"
+					shadow
+					type="secondary">
+					Login
+				</Button>
+				<ToastContainer />
+			</form>
+			<img src="/wallp.jpg" alt="Login" />
+		</section>
 	);
 }

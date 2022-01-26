@@ -88,17 +88,19 @@ export default function Reimbursements({
 					<Select.Option value="APPROVED">Approved</Select.Option>
 					<Select.Option value="DENIED">Denied</Select.Option>
 				</Select>
-				<Spacer h={1} />
-				<Button
-					shadow
-					type="secondary"
-					onClick={() => setShowModal(true)}>
-					Add Reimbursement
-				</Button>
+				{user.role === "USER" && (
+					<>
+						<Spacer h={1} />
+						<Button
+							shadow
+							type="secondary"
+							onClick={() => setShowModal(true)}>
+							Add Reimbursement
+						</Button>
+					</>
+				)}
 				<Spacer h={2} />
-				<Grid.Container
-					alignContent="space-between"
-					justify="flex-start">
+				<Grid.Container align justify="flex-start">
 					<Grid xs={24} mb="5px">
 						<Text h4>Reimbursements:</Text>
 					</Grid>
@@ -107,6 +109,7 @@ export default function Reimbursements({
 							xs={24}
 							sm={12}
 							lg={8}
+							xl={6}
 							mb="15px"
 							key={reimbursement.id}>
 							<Reimbursement
@@ -199,7 +202,6 @@ export default function Reimbursements({
 					loading={buttonLoading}
 					onClick={() => {
 						setButtonLoading(true);
-						clearErrors();
 						let errorCount = 0;
 						const values = getValues();
 						const amount = parseFloat(values.amount);
@@ -211,6 +213,7 @@ export default function Reimbursements({
 							});
 							errorCount++;
 							setButtonLoading(false);
+							return;
 						}
 						if (!!values.description.trim("") === false) {
 							setError("description", {
@@ -219,6 +222,7 @@ export default function Reimbursements({
 							});
 							errorCount++;
 							setButtonLoading(false);
+							return;
 						}
 						const data = {
 							amount: values.amount,
